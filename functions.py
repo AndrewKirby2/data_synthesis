@@ -20,7 +20,7 @@ def calculate_distance(x, y):
         The effective distance
     """
     distance = np.sqrt(10*x**2 + y**2)
-    distance[y<0] = np.inf
+    distance[y < 0] = np.inf
     return distance
 
 
@@ -47,9 +47,11 @@ def make_wind_farm_coords(S_x, S_y, S_off, theta):
     """
     farm_coords = np.zeros((49, 3))
     for n_y in np.arange(-3, 4):
-        farm_coords[7*(n_y + 3):7*(n_y + 4), 0:2] = [calculate_turbine_coords(S_x, S_y,
-            S_off, theta, n_x, n_y) for n_x in np.arange(-3, 4)]
-    farm_coords[:,2] = calculate_distance(farm_coords[:,0],farm_coords[:,1])
+        farm_coords[7*(n_y + 3):7*(n_y + 4), 0:2] = \
+            [calculate_turbine_coords(S_x, S_y, S_off, theta, n_x, n_y)
+             for n_x in np.arange(-3, 4)]
+    farm_coords[:, 2] = calculate_distance(farm_coords[:, 0],
+                                           farm_coords[:, 1])
     return farm_coords
 
 
@@ -109,5 +111,5 @@ def find_important_turbines(S_x, S_y, S_off, theta):
     turbines in a regular arrangment
     """
     farm_coords = make_wind_farm_coords(S_x, S_y, S_off, theta)
-    closest_turbines = np.argsort(farm_coords[:,2])
-    return farm_coords[closest_turbines[1:4],:2]
+    closest_turbines = np.argsort(farm_coords[:, 2])
+    return farm_coords[closest_turbines[1:4], :2]
