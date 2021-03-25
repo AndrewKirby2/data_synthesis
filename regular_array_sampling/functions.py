@@ -1,3 +1,6 @@
+""" Module containing functions to calculate the 3 most
+important wind turbines in a regular wind farm
+"""
 import numpy as np
 
 
