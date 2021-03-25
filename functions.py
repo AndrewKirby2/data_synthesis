@@ -21,3 +21,62 @@ def calculate_distance(x, y):
     """
     distance = np.sqrt(10*x**2 + y**2)
     return distance
+
+
+def make_wind_farm_coords(S_x, S_y, S_off, theta):
+    """ calculate the x, y coordinates of a wind farm
+    with regular arrangement
+
+    Parameters
+    ----------
+    S_x: float
+        The spanwise spacing of the wind farm
+    S_y: float
+        The streamwise spacing of the wind farm
+    S_off : float
+        The spanwise offset of row of turbines
+    theta: float
+        The angle of incoming wind
+
+    Returns
+    -------
+    farm_coords: ndarray of shape (7, 7)
+        The x, y coordinates of the closest 49 wind turbines
+    """
+    farm_coords = np.zeros(7, 7)
+    for n_y in np.arange(-3, 4):
+        farm_coords[n_y, :] = [calculate_turbine_coords(S_x, S_y,
+            S_off, theta, n_x, n_y) for n_x in np.arange(-3, 4)]
+    return farm_coords
+
+
+def calculate_turbine_coords(S_x, S_y, S_off, theta, n_x, n_y):
+    """caulcate the x, y coordinates of a single wind
+    turbine in a regular arrangment
+
+    Parameters
+    ----------
+    S_x: float
+        The spanwise spacing of the wind farm
+    S_y: float
+        The streamwise spacing of the wind farm
+    S_off : float
+        The spanwise offset of row of turbines
+    theta: float
+        The angle of incoming wind
+    n_x: integer
+        Turbine number in original spanwise direction
+    n_y: integer
+        Turbine number in the original streamwise direction
+
+    Returns
+    -------
+    turbine coords: ndarray of shape (2,)
+        The x, y coordinates of the wind turbine specified by
+        the turbine numbers n_x, n_y
+    """
+    x = np.cos(theta)*S_x*n_x + np.cos(theta)*S_off*n_y \
+        - np.sin(theta)*S_y*n_y
+    y = np.sin(theta)*S_x*n_x + np.sin(theta)*S_off*n_y \
+        + np.cos(theta)*S_y*n_y
+    return np.array([[x, y]])
