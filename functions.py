@@ -40,13 +40,14 @@ def make_wind_farm_coords(S_x, S_y, S_off, theta):
 
     Returns
     -------
-    farm_coords: ndarray of shape (7, 7, 2)
+    farm_coords: ndarray of shape (49, 2)
         The x, y coordinates of the closest 49 wind turbines
     """
-    farm_coords = np.zeros((7, 7, 2))
+    farm_coords = np.zeros((49, 3))
     for n_y in np.arange(-3, 4):
-        farm_coords[n_y, :, :] = [calculate_turbine_coords(S_x, S_y,
+        farm_coords[7*(n_y + 3):7*(n_y + 4), 0:2] = [calculate_turbine_coords(S_x, S_y,
             S_off, theta, n_x, n_y) for n_x in np.arange(-3, 4)]
+    farm_coords[:,2] = calculate_distance(farm_coords[:,0],farm_coords[:,1])
     return farm_coords
 
 
