@@ -20,6 +20,7 @@ def calculate_distance(x, y):
         The effective distance
     """
     distance = np.sqrt(10*x**2 + y**2)
+    distance[y<0] = np.inf
     return distance
 
 
@@ -40,8 +41,9 @@ def make_wind_farm_coords(S_x, S_y, S_off, theta):
 
     Returns
     -------
-    farm_coords: ndarray of shape (49, 2)
-        The x, y coordinates of the closest 49 wind turbines
+    farm_coords: ndarray of shape (49, 3)
+        (49, :3) The x, y coordinates of the closest 49 wind turbines
+        (49, 3) The effective distance of the closest 49 wind turbines
     """
     farm_coords = np.zeros((49, 3))
     for n_y in np.arange(-3, 4):
@@ -81,3 +83,31 @@ def calculate_turbine_coords(S_x, S_y, S_off, theta, n_x, n_y):
     y = np.sin(theta)*S_x*n_x + np.sin(theta)*S_off*n_y \
         + np.cos(theta)*S_y*n_y
     return (x, y)
+
+
+def find_important_turbines(S_x, S_y, S_off, theta):
+    """caulcate the x, y coordinates of the three closest
+    turbines in a regular arrangment
+    Distance is calculated assuming streamwise direction
+    is 10x more important than spanwise direction
+
+    Parameters
+    ----------
+    S_x: float
+        The spanwise spacing of the wind farm
+    S_y: float
+        The streamwise spacing of the wind farm
+    S_off : float
+        The spanwise offset of row of turbines
+    theta: float
+        The angle of incoming wind
+
+    Returns
+    -------
+    turbine coords: ndarray of shape(3, 2)
+        The x, y coordinates of the three closest
+    turbines in a regular arrangment
+    """
+    farm_coords = make_wind_farm_coords(S_x, S_y, S_off, theta)
+    closest_turbines = np.argsort(farm_coords[:,2])
+    return farm_coords[closest_turbines[1:4],:2]
