@@ -1,6 +1,7 @@
 import numpy as np
 
-def calculate_distance(x,y):
+
+def calculate_distance(x, y):
     """ calculate the effective distance of a wind turbine
     assuming the streamwise direction is 10x more important
     than spanwise direction
@@ -12,8 +13,8 @@ def calculate_distance(x,y):
         The spanwise coordinate of the turbine
     y: float
         The streamwise coordinate of the turbine
-    
-    Returns 
+
+    Returns
     -------
     distance : float
         The effective distance
