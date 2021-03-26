@@ -2,6 +2,7 @@
 """
 import numpy as np
 
+
 def simulator2D(x, noise_level):
     """ calculates CT* based on x1, y1
         Gaussian noise is added
@@ -18,7 +19,8 @@ def simulator2D(x, noise_level):
     """
     return 0.88 + 0.05*np.exp(-x[1]/10)*np.exp(-x[0]**2/(10+0.2*x[1])) \
         - 0.4*np.exp(-x[1]/10)*np.exp(-x[0]**2/(0.5+0.2*x[1])) \
-            + np.random.normal(0,noise_level/1.96)
+        + np.random.normal(0, noise_level/1.96)
+
 
 def simulator4d(x, noise_level):
     """ calculates CT* based on x1, y1, x2, y2
@@ -38,10 +40,11 @@ def simulator4d(x, noise_level):
         - 0.4*np.exp(-x[1]/10)*np.exp(-x[0]**2/(0.5+0.2*x[1])) \
         + 0.05*np.exp(-x[3]/10)*np.exp(-x[2]**2/(10+0.2*x[3])) \
         - 0.4*np.exp(-x[3]/10)*np.exp(-x[2]**2/(0.5+0.2*x[3])) \
-            + np.random.normal(0,noise_level/1.96)
+        + np.random.normal(0, noise_level/1.96)
 
-def simulator6d(x1,y1,x2,y2,x3,y3):
-    return     """ calculates CT* based on x1, y1, x2, y2,
+
+def simulator6d(x, noise_level):
+    """ calculates CT* based on x1, y1, x2, y2,
     x3, y3
         Gaussian noise is added
 
@@ -61,4 +64,4 @@ def simulator6d(x1,y1,x2,y2,x3,y3):
         - 0.4*np.exp(-x[3]/10)*np.exp(-x[2]**2/(0.5+0.2*x[3])) \
         + 0.05*np.exp(-x[5]/10)*np.exp(-x[4]**2/(10+0.2*x[5])) \
         - 0.4*np.exp(-x[5]/10)*np.exp(-x[4]**2/(0.5+0.2*x[5])) \
-            + np.random.normal(0,noise_level/1.96)
+        + np.random.normal(0, noise_level/1.96)
