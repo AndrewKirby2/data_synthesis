@@ -13,17 +13,18 @@ sys.path.append(r'/home/andrewkirby72/phd_work/data_synthesis')
 from GP_machine_learning.GP_machine_learning_functions import *
 from regular_array_sampling.functions import regular_array_monte_carlo
 
-
+# create array to store results for plotting
 rmse = np.ones((25, 2))
 noise = 0.01
+# create array of sampled regular array layouts
 cand_points = regular_array_monte_carlo(10000)
-n_train = 0
-n = 0
+# create testing points
+X_test, y_test = create_testing_points(noise)
 
 for n in range(20):
     n_target = 10 + n*10
 
-    X_test, y_test = create_testing_points(noise)
+    # create training points
     X_train, y_train, n_train = \
         create_training_points_regular(n_target, noise, cand_points)
 
