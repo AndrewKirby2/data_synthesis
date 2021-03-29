@@ -7,6 +7,7 @@ import diversipy.subset as sb
 import sys
 sys.path.append(r'/home/andrewkirby72/phd_work/data_synthesis')
 from data_simulator.simulators import simulator6d
+from regular_array_sampling.functions import regular_array_monte_carlo
 import numpy as np
 
 
@@ -123,3 +124,29 @@ def create_training_points_regular(n_target, noise_level, cand_points):
         y_train[i] = simulator6d(X_train_real[i,:], noise_level)
     n_train = n_target
     return X_train_real, y_train, n_train
+
+def create_testing_points_regular(noise_level):
+    """ create array of testing points from regular 
+    wind turbine arrays
+    Discard any training points where turbines are
+    not in the correct order and any training points where
+    turbines are closer than 2D
+
+    Parameters
+    ----------
+    noise_level: float
+        Level of gaussian noise to be added to 
+        simulator
+
+    Returns
+    -------
+    X_test_real:    ndarray of shape(variable,6)
+                    array containing valid test points
+    y_test:         ndarray of shape(variable,)
+                    value of CT* at test points
+    """
+    X_test_real = regular_array_monte_carlo(1000)
+    y_test = np.zeros(len(X_test_real))
+    for i in range(len(X_test_real)):
+        y_test[i] = simulator6d(X_test_real[i,:], noise_level)
+    return X_test_real, y_test

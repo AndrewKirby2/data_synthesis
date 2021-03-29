@@ -1,6 +1,11 @@
+""" Plot a training curve for the 6D data simulator of CT*
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
-from GP_machine_learning_functions import *
+import sys
+sys.path.append(r'/home/andrewkirby72/phd_work/data_synthesis')
+from GP_machine_learning.GP_machine_learning_functions import *
 from regular_array_sampling.functions import regular_array_monte_carlo
 from sklearn.preprocessing import StandardScaler
 from sklearn.gaussian_process import GaussianProcessRegressor
@@ -10,7 +15,7 @@ from sklearn.pipeline import Pipeline
 
 rmse = np.ones((25,2))
 noise = 0.01
-cand_points = regular_array_monte_carlo(100000)
+cand_points = regular_array_monte_carlo(10000)
 n_train = 0
 n = 0
 
@@ -39,4 +44,5 @@ plt.xlim([0,200])
 plt.title('Training curve RBF - 6D 1% noise - regular array training')
 plt.ylabel('RMSE')
 plt.xlabel('Training points')
-plt.savefig('gp_training_curve_RBF_irregular_maximin_1000.png')
+plt.savefig('analysis/GP_machine_learning_plots/\
+gp_training_curve_RBF_regular_training_ncand10000.png')
