@@ -1,6 +1,5 @@
 """Monte carlo sampling of regular arrays and then plot
 (x1,y1,x2,y2,x3,y3) for 3 most important turbines"""
-import numpy as np
 import sys
 import matplotlib.pyplot as plt
 sys.path.append(r'/home/andrewkirby72/phd_work/data_synthesis')
@@ -31,5 +30,6 @@ turbine1.scatter(turbine_coords[:, 0], turbine_coords[:, 1])
 turbine2.scatter(turbine_coords[:, 2], turbine_coords[:, 3])
 turbine3.scatter(turbine_coords[:, 4], turbine_coords[:, 5])
 
-plt.savefig('analysis/regular_array_monte_carlo_plots/regular_array_monte_carlo'\
-    +str(num_iters)+'.png')
+plt.savefig('analysis/regular_array_monte_carlo_plots/',
+            'regular_array_monte_carlo'
+            + str(num_iters)+'.png')
