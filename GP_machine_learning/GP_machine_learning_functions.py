@@ -42,15 +42,15 @@ def create_testing_points(noise_level):
     X_test_real = X_test[X_test_dist > 2]
     # exclude test points where turbine 2 is more "important" than turbine 1
     # using distance = sqrt(10*x_1^2 + y_1^2)
-    X_test_sig = np.sqrt(np.sqrt(10*X_test_real[:, 2]**2
-                         + X_test_real[:, 3]**2)) \
-        - np.sqrt(np.sqrt(10*X_test_real[:, 0]**2 + X_test_real[:, 1]**2))
+    X_test_sig = np.sqrt(10*X_test_real[:, 2]**2
+                         + X_test_real[:, 3]**2) \
+        - np.sqrt(10*X_test_real[:, 0]**2 + X_test_real[:, 1]**2)
     X_test_real = X_test_real[X_test_sig > 0]
     # exclude test points where turbine 3 is more "important" than turbine 2
     # using distance = sqrt(10*x_1^2 + y_1^2)
-    X_test_sig = np.sqrt(np.sqrt(10*X_test_real[:, 4]**2
-                         + X_test_real[:, 5]**2)) \
-        - np.sqrt(np.sqrt(10*X_test_real[:, 2]**2 + X_test_real[:, 3]**2))
+    X_test_sig = np.sqrt(10*X_test_real[:, 4]**2
+                         + X_test_real[:, 5]**2) \
+        - np.sqrt(10*X_test_real[:, 2]**2 + X_test_real[:, 3]**2)
     X_test_real = X_test_real[X_test_sig > 0]
     y_test = np.zeros(len(X_test_real))
     for i in range(len(X_test_real)):
@@ -93,15 +93,15 @@ def create_training_points_irregular(n_target, noise_level):
     X_train_real = X_train[X_train_dist > 2]
     # exclude training points where turbine 2 is more important"
     # than turbine 1 using distance = sqrt(10*x_1^2 + y_1^2)
-    X_train_sig = np.sqrt(np.sqrt(10*X_train_real[:, 2]**2
-                          + X_train_real[:, 3]**2)) \
-        - np.sqrt(np.sqrt(10*X_train_real[:, 0]**2 + X_train_real[:, 1]**2))
+    X_train_sig = np.sqrt(10*X_train_real[:, 2]**2
+                          + X_train_real[:, 3]**2) \
+        - np.sqrt(10*X_train_real[:, 0]**2 + X_train_real[:, 1]**2)
     X_train_real = X_train_real[X_train_sig > 0]
     # exclude training points where turbine 3 is more important
     # than turbine 2 using distance = sqrt(10*x_1^2 + y_1^2)
-    X_train_sig = np.sqrt(np.sqrt(10*X_train_real[:, 4]**2
-                          + X_train_real[:, 5]**2)) \
-        - np.sqrt(np.sqrt(10*X_train_real[:, 2]**2 + X_train_real[:, 3]**2))
+    X_train_sig = np.sqrt(10*X_train_real[:, 4]**2
+                          + X_train_real[:, 5]**2) \
+        - np.sqrt(10*X_train_real[:, 2]**2 + X_train_real[:, 3]**2)
     X_train_real = X_train_real[X_train_sig > 0]
     # run simulations to find data points
     y_train = np.zeros(len(X_train_real))
