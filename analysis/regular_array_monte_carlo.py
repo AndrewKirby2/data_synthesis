@@ -8,7 +8,7 @@ from regular_array_sampling.functions import regular_array_monte_carlo
 
 num_iters = 10000
 
-fig = plt.figure(figsize=(10.0, 3.0))
+fig = plt.figure(figsize=(12.0, 5.0))
 turbine1 = fig.add_subplot(1, 3, 1)
 turbine1.set_xlim([-5, 5])
 turbine1.set_ylim([0, 30])
@@ -30,6 +30,4 @@ turbine1.scatter(turbine_coords[:, 0], turbine_coords[:, 1])
 turbine2.scatter(turbine_coords[:, 2], turbine_coords[:, 3])
 turbine3.scatter(turbine_coords[:, 4], turbine_coords[:, 5])
 
-plt.savefig('analysis/regular_array_monte_carlo_plots/',
-            'regular_array_monte_carlo'
-            + str(num_iters)+'.png')
+plt.savefig('analysis/regular_array_monte_carlo_plots/regular_array_monte_carlo10000.png')
