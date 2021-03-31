@@ -9,6 +9,7 @@ import sys
 sys.path.append(r'/home/andrewkirby72/phd_work/data_synthesis')
 from data_simulator.simulators import simulator6d
 from regular_array_sampling.functions import regular_array_monte_carlo
+from regular_array_sampling.functions import find_important_turbines
 
 
 def create_testing_points(noise_level):
@@ -157,3 +158,36 @@ def create_testing_points_regular(noise_level):
     for i in range(len(X_test_real)):
         y_test[i] = simulator6d(X_test_real[i, :], noise_level)
     return X_test_real, y_test
+
+def create_training_points_regular_maxi4d(n_target, noise_level):
+    """ create array of training points from
+    regular turbine arrays
+    Use maximin in 4d
+    Returns
+    -------
+    X_train_real:    ndarray of shape(variable,6)
+                    array containing valid training points
+    y_train:         ndarray of shape(variable,)
+                    value of CT* at test points
+    n_train:        int
+                    number of valid training points
+    """
+    regular_array = dp.maximin_reconstruction(n_target, 4)
+    # rescale to design in range S_x = [2,20] S_y = [2,20],
+    # S_off = [0, S_x] and theta = [0, pi]
+    regular_array[:, 0] = 2 + 18*regular_array[:, 0]
+    regular_array[:, 1] = 2 + 18*regular_array[:, 1]
+    regular_array[:, 2] = regular_array[:, 0]*regular_array[:, 2]
+    regular_array[:, 3] = np.pi*regular_array[:, 3]
+    #convert regular array into 3 most important turbines
+    X_train_real = np.zeros((n_target, 6))
+    for i in range(n_target):
+        X_train_real[i,:] = find_important_turbines(regular_array[i, 0],
+                                                      regular_array[i, 1],
+                                                      regular_array[i, 2],
+                                                      regular_array[i, 3])
+    y_train = np.zeros(len(X_train_real))
+    for i in range(len(X_train_real)):
+        y_train[i] = simulator6d(X_train_real[i, :], noise_level)
+    n_train = n_target
+    return X_train_real, y_train, n_train

@@ -17,7 +17,7 @@ from regular_array_sampling.functions import regular_array_monte_carlo
 rmse = np.ones((25, 2))
 noise = 0.01
 # create array of sampled regular array layouts
-cand_points = regular_array_monte_carlo(10000)
+#cand_points = regular_array_monte_carlo(10000)
 # create testing points
 X_test, y_test = create_testing_points(noise)
 
@@ -26,7 +26,7 @@ for n in range(20):
 
     # create training points
     X_train, y_train, n_train = \
-        create_training_points_regular(n_target, noise, cand_points)
+        create_training_points_regular_maxi4d(n_target, noise)
 
     # fit GP regression and calculate rmse
     kernel = 1.0 ** 2 * RBF(length_scale=[1., 1., 1., 1., 1., 1.]) \
@@ -51,4 +51,4 @@ plt.title('Training curve RBF - 6D 1% noise - regular array training')
 plt.ylabel('RMSE')
 plt.xlabel('Training points')
 plt.savefig('analysis/GP_machine_learning_plots/\
-gp_training_curve_RBF_regular_training_ncand10000.png')
+gp_training_curve_RBF_regular_training_maximin4D.png')
