@@ -17,8 +17,8 @@ def simulator2D(x, noise_level):
     CT* : float
         The value of the turbine thrust coefficient
     """
-    return 0.88 + 0.05*np.exp(-x[1]/10)*np.exp(-x[0]**2/(10+0.2*x[1])) \
-        - 0.4*np.exp(-x[1]/10)*np.exp(-x[0]**2/(0.5+0.2*x[1])) \
+    return 0.88 + 0.05*np.exp(-x[0]/10)*np.exp(-x[1]**2/(10+0.2*x[0])) \
+        - 0.4*np.exp(-x[0]/10)*np.exp(-x[1]**2/(0.5+0.2*x[0])) \
         + np.random.normal(0, noise_level/1.96)
 
 
@@ -36,10 +36,10 @@ def simulator4d(x, noise_level):
     CT* : float
         The value of the turbine thrust coefficient
     """
-    return 0.88 + 0.05*np.exp(-x[1]/10)*np.exp(-x[0]**2/(10+0.2*x[1])) \
-        - 0.4*np.exp(-x[1]/10)*np.exp(-x[0]**2/(0.5+0.2*x[1])) \
-        + 0.05*np.exp(-x[3]/10)*np.exp(-x[2]**2/(10+0.2*x[3])) \
-        - 0.4*np.exp(-x[3]/10)*np.exp(-x[2]**2/(0.5+0.2*x[3])) \
+    return 0.88 + 0.05*np.exp(-x[0]/10)*np.exp(-x[1]**2/(10+0.2*x[0])) \
+        - 0.4*np.exp(-x[0]/10)*np.exp(-x[1]**2/(0.5+0.2*x[0])) \
+        + 0.05*np.exp(-x[2]/10)*np.exp(-x[3]**2/(10+0.2*x[2])) \
+        - 0.4*np.exp(-x[2]/10)*np.exp(-x[3]**2/(0.5+0.2*x[2])) \
         + np.random.normal(0, noise_level/1.96)
 
 
@@ -58,10 +58,10 @@ def simulator6d(x, noise_level):
     CT* : float
         The value of the turbine thrust coefficient
     """
-    return 0.88 + 0.05*np.exp(-x[1]/10)*np.exp(-x[0]**2/(10+0.2*x[1])) \
-        - 0.4*np.exp(-x[1]/10)*np.exp(-x[0]**2/(0.5+0.2*x[1])) \
-        + 0.05*np.exp(-x[3]/10)*np.exp(-x[2]**2/(10+0.2*x[3])) \
-        - 0.4*np.exp(-x[3]/10)*np.exp(-x[2]**2/(0.5+0.2*x[3])) \
-        + 0.05*np.exp(-x[5]/10)*np.exp(-x[4]**2/(10+0.2*x[5])) \
-        - 0.4*np.exp(-x[5]/10)*np.exp(-x[4]**2/(0.5+0.2*x[5])) \
+    return 0.88 + 0.05*np.exp(-x[0]/10)*np.exp(-x[1]**2/(10+0.2*x[0])) \
+        - 0.4*np.exp(-x[0]/10)*np.exp(-x[1]**2/(0.5+0.2*x[0])) \
+        + 0.05*np.exp(-x[2]/10)*np.exp(-x[3]**2/(10+0.2*x[2])) \
+        - 0.4*np.exp(-x[2]/10)*np.exp(-x[3]**2/(0.5+0.2*x[2])) \
+        + 0.05*np.exp(-x[4]/10)*np.exp(-x[5]**2/(10+0.2*x[4])) \
+        - 0.4*np.exp(-x[4]/10)*np.exp(-x[5]**2/(0.5+0.2*x[4])) \
         + np.random.normal(0, noise_level/1.96)
