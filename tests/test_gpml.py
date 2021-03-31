@@ -12,26 +12,26 @@ def test_testing_data():
     X_test_dist = np.sqrt(X_test[:, 0]**2 + X_test[:, 1]**2)
     assert(np.all(X_test_dist > 2))
     # test that turbine2 is more important than 1
-    X_test_sig = np.sqrt(10*X_test[:, 2]**2
-                        + X_test[:, 3]**2) \
-    - np.sqrt(10*X_test[:, 0]**2 + X_test[:, 1]**2)
+    X_test_sig = calculate_distance(X_test[:, 2],
+                                    X_test[:, 3]) \
+        - calculate_distance(X_test[:, 0], X_test[:, 1])
     assert(np.all(X_test_sig > 0))
     # test that turbine2 is more important than 1
-    X_test_sig = np.sqrt(10*X_test[:, 4]**2
-                        + X_test[:, 5]**2) \
-    - np.sqrt(10*X_test[:, 2]**2 + X_test[:, 3]**2)
+    X_test_sig = calculate_distance(X_test[:, 4],
+                                    X_test[:, 5]) \
+        - calculate_distance(X_test[:, 2], X_test[:, 3])
     assert(np.all(X_test_sig > 0))
-    # test that x1, x2, x3 is in the range [-5, 5]
-    assert(np.all(np.abs(X_test[:, 0]) < 5))
-    assert(np.all(np.abs(X_test[:, 2]) < 5))
-    assert(np.all(np.abs(X_test[:, 4]) < 5))
-    # test that y1, y2, y3 is in the range [0, 30]
-    assert(np.all(X_test[:,1] < 30))
-    assert(np.all(X_test[:,3] < 30))
-    assert(np.all(X_test[:,5] < 30))
-    assert(np.all(X_test[:,1] >= 0))
-    assert(np.all(X_test[:,3] >= 0))
-    assert(np.all(X_test[:,5] >= 0))
+    # test that y1, y2, y3 is in the range [-5, 5]
+    assert(np.all(np.abs(X_test[:, 1]) < 5))
+    assert(np.all(np.abs(X_test[:, 3]) < 5))
+    assert(np.all(np.abs(X_test[:, 5]) < 5))
+    # test that x1, x2, x3 is in the range [0, 30]
+    assert(np.all(X_test[:,0] < 30))
+    assert(np.all(X_test[:,2] < 30))
+    assert(np.all(X_test[:,4] < 30))
+    assert(np.all(X_test[:,0] >= 0))
+    assert(np.all(X_test[:,2] >= 0))
+    assert(np.all(X_test[:,4] >= 0))
 
 def test_regular_training_data():
     """Confirm that the training points are valid
@@ -44,23 +44,23 @@ def test_regular_training_data():
     X_test_dist = np.sqrt(X_test[:, 0]**2 + X_test[:, 1]**2)
     assert(np.all(X_test_dist >= 2))
     # test that turbine2 is more important than 1
-    X_test_sig = np.sqrt(10*X_test[:, 2]**2
-                        + X_test[:, 3]**2) \
-    - np.sqrt(10*X_test[:, 0]**2 + X_test[:, 1]**2)
+    X_test_sig = calculate_distance(X_test[:, 2],
+                                    X_test[:, 3]) \
+        - calculate_distance(X_test[:, 0], X_test[:, 1])
     assert(np.all(X_test_sig > 0))
     # test that turbine2 is more important than 1
-    X_test_sig = np.sqrt(10*X_test[:, 4]**2
-                        + X_test[:, 5]**2) \
-    - np.sqrt(10*X_test[:, 2]**2 + X_test[:, 3]**2)
+    X_test_sig = calculate_distance(X_test[:, 4],
+                                    X_test[:, 5]) \
+        - calculate_distance(X_test[:, 2], X_test[:, 3])
     assert(np.all(X_test_sig > 0))
-    # test that x1, x2, x3 is in the range [-5, 5]
-    assert(np.all(np.abs(X_test[:, 0]) < 5))
-    assert(np.all(np.abs(X_test[:, 2]) < 5))
-    assert(np.all(np.abs(X_test[:, 4]) < 5))
-    # test that y1, y2, y3 is in the range [0, 30]
-    assert(np.all(X_test[:,1] < 30))
-    assert(np.all(X_test[:,3] < 30))
-    assert(np.all(X_test[:,5] < 30))
-    assert(np.all(X_test[:,1] >= 0))
-    assert(np.all(X_test[:,3] >= 0))
-    assert(np.all(X_test[:,5] >= 0))
+    # test that y1, y2, y3 is in the range [-5, 5]
+    assert(np.all(np.abs(X_test[:, 1]) < 5))
+    assert(np.all(np.abs(X_test[:, 3]) < 5))
+    assert(np.all(np.abs(X_test[:, 5]) < 5))
+    # test that x1, x2, x3 is in the range [0, 30]
+    assert(np.all(X_test[:,0] < 30))
+    assert(np.all(X_test[:,2] < 30))
+    assert(np.all(X_test[:,4] < 30))
+    assert(np.all(X_test[:,0] >= 0))
+    assert(np.all(X_test[:,2] >= 0))
+    assert(np.all(X_test[:,4] >= 0))

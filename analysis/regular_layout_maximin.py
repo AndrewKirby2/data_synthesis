@@ -7,13 +7,13 @@ import numpy as np
 sys.path.append(r'/home/andrewkirby72/phd_work/data_synthesis')
 from regular_array_sampling.functions import find_important_turbines
 
-num_points = 60
+num_points = 40
 regular_array = dp.maximin_reconstruction(num_points, 4)
 # rescale to design in range S_x = [2,20] S_y = [2,20],
-# S_off = [0, S_x] and theta = [0, pi]
+# S_off = [0, S_y] and theta = [0, pi]
 regular_array[:, 0] = 2 + 18*regular_array[:, 0]
 regular_array[:, 1] = 2 + 18*regular_array[:, 1]
-regular_array[:, 2] = regular_array[:, 0]*regular_array[:, 2]
+regular_array[:, 2] = regular_array[:, 1]*regular_array[:, 2]
 regular_array[:, 3] = np.pi*regular_array[:, 3]
 
 fig = plt.figure(figsize=(12.0, 5.0))

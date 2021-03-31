@@ -52,6 +52,7 @@ def simulator6d(x, noise_level):
     ----------
     x : ndarray of shape (6,)
         The x, y coordinates of turbines 1, 2 and 3
+        x is increasing in the upwind direction
 
     Returns
     -------

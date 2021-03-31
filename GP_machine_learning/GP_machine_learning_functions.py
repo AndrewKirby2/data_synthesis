@@ -10,6 +10,7 @@ sys.path.append(r'/home/andrewkirby72/phd_work/data_synthesis')
 from data_simulator.simulators import simulator6d
 from regular_array_sampling.functions import regular_array_monte_carlo
 from regular_array_sampling.functions import find_important_turbines
+from regular_array_sampling.functions import calculate_distance
 
 
 def create_testing_points(noise_level):
@@ -32,26 +33,26 @@ def create_testing_points(noise_level):
                     value of CT* at test points
     """
     X_test = lhs(6, 1000, 'maximin')
-    X_test[:, 0] = 10*X_test[:, 0] - 5
-    X_test[:, 1] = 30*X_test[:, 1]
-    X_test[:, 2] = 10*X_test[:, 2] - 5
-    X_test[:, 3] = 30*X_test[:, 3]
-    X_test[:, 4] = 10*X_test[:, 4] - 5
-    X_test[:, 5] = 30*X_test[:, 5]
+    X_test[:, 0] = 30*X_test[:, 0]
+    X_test[:, 1] = 10*X_test[:, 1] - 5
+    X_test[:, 2] = 30*X_test[:, 2]
+    X_test[:, 3] = 10*X_test[:, 3] - 5
+    X_test[:, 4] = 30*X_test[:, 4]
+    X_test[:, 5] = 10*X_test[:, 5] - 5
     # exclude test points where turbine 1 is closer than 2D
     X_test_dist = np.sqrt(X_test[:, 0]**2 + X_test[:, 1]**2)
     X_test_real = X_test[X_test_dist > 2]
     # exclude test points where turbine 2 is more "important" than turbine 1
-    # using distance = sqrt(10*x_1^2 + y_1^2)
-    X_test_sig = np.sqrt(10*X_test_real[:, 2]**2
-                         + X_test_real[:, 3]**2) \
-        - np.sqrt(10*X_test_real[:, 0]**2 + X_test_real[:, 1]**2)
+    # using distance = sqrt(x_1^2 + k*y_1^2)
+    X_test_sig = calculate_distance(X_test_real[:, 2],
+                                    X_test_real[:, 3]) \
+        - calculate_distance(X_test_real[:, 0], X_test_real[:, 1])
     X_test_real = X_test_real[X_test_sig > 0]
     # exclude test points where turbine 3 is more "important" than turbine 2
-    # using distance = sqrt(10*x_1^2 + y_1^2)
-    X_test_sig = np.sqrt(10*X_test_real[:, 4]**2
-                         + X_test_real[:, 5]**2) \
-        - np.sqrt(10*X_test_real[:, 2]**2 + X_test_real[:, 3]**2)
+    # using distance = sqrt(x_1^2 + k*y_1^2)
+    X_test_sig = calculate_distance(X_test_real[:, 4],
+                                    X_test_real[:, 5]) \
+        - calculate_distance(X_test_real[:, 2], X_test_real[:, 3])
     X_test_real = X_test_real[X_test_sig > 0]
     y_test = np.zeros(len(X_test_real))
     for i in range(len(X_test_real)):
@@ -83,27 +84,27 @@ def create_training_points_irregular(n_target, noise_level):
                     number of valid training points
     """
     X_train = dp.maximin_reconstruction(n_target, 6)
-    X_train[:, 0] = 10*X_train[:, 0] - 5
-    X_train[:, 1] = 30*X_train[:, 1]
-    X_train[:, 2] = 10*X_train[:, 2] - 5
-    X_train[:, 3] = 30*X_train[:, 3]
-    X_train[:, 4] = 10*X_train[:, 4] - 5
-    X_train[:, 5] = 30*X_train[:, 5]
+    X_test[:, 0] = 30*X_test[:, 0]
+    X_test[:, 1] = 10*X_test[:, 1] - 5
+    X_test[:, 2] = 30*X_test[:, 2]
+    X_test[:, 3] = 10*X_test[:, 3] - 5
+    X_test[:, 4] = 30*X_test[:, 4]
+    X_test[:, 5] = 10*X_test[:, 5] - 5
     # exclude training points where turbine 1 is closer than 2D
     X_train_dist = np.sqrt(X_train[:, 0]**2 + X_train[:, 1]**2)
     X_train_real = X_train[X_train_dist > 2]
     # exclude training points where turbine 2 is more important"
     # than turbine 1 using distance = sqrt(10*x_1^2 + y_1^2)
-    X_train_sig = np.sqrt(10*X_train_real[:, 2]**2
-                          + X_train_real[:, 3]**2) \
-        - np.sqrt(10*X_train_real[:, 0]**2 + X_train_real[:, 1]**2)
-    X_train_real = X_train_real[X_train_sig > 0]
+    X_test_sig = calculate_distance(X_test_real[:, 2],
+                                    X_test_real[:, 3]) \
+        - calculate_distance(X_test_real[:, 0], X_test_real[:, 1])
+    X_test_real = X_test_real[X_test_sig > 0]
     # exclude training points where turbine 3 is more important
     # than turbine 2 using distance = sqrt(10*x_1^2 + y_1^2)
-    X_train_sig = np.sqrt(10*X_train_real[:, 4]**2
-                          + X_train_real[:, 5]**2) \
-        - np.sqrt(10*X_train_real[:, 2]**2 + X_train_real[:, 3]**2)
-    X_train_real = X_train_real[X_train_sig > 0]
+    X_test_sig = calculate_distance(X_test_real[:, 4],
+                                    X_test_real[:, 5]) \
+        - calculate_distance(X_test_real[:, 2], X_test_real[:, 3])
+    X_test_real = X_test_real[X_test_sig > 0]
     # run simulations to find data points
     y_train = np.zeros(len(X_train_real))
     for i in range(len(X_train_real)):
@@ -174,10 +175,10 @@ def create_training_points_regular_maxi4d(n_target, noise_level):
     """
     regular_array = dp.maximin_reconstruction(n_target, 4)
     # rescale to design in range S_x = [2,20] S_y = [2,20],
-    # S_off = [0, S_x] and theta = [0, pi]
+    # S_off = [0, S_y] and theta = [0, pi]
     regular_array[:, 0] = 2 + 18*regular_array[:, 0]
     regular_array[:, 1] = 2 + 18*regular_array[:, 1]
-    regular_array[:, 2] = regular_array[:, 0]*regular_array[:, 2]
+    regular_array[:, 2] = regular_array[:, 1]*regular_array[:, 2]
     regular_array[:, 3] = np.pi*regular_array[:, 3]
     #convert regular array into 3 most important turbines
     X_train_real = np.zeros((n_target, 6))
