@@ -16,11 +16,11 @@ from regular_array_sampling.functions import regular_array_monte_carlo
 
 noise = 0.01
 # create array of sampled regular array layouts
-cand_points = regular_array_monte_carlo(10000)
+cand_points = regular_array_monte_carlo(50000)
 # create testing points
-X_test, y_test = create_testing_points(noise)
+X_test, y_test = create_testing_points_regular(noise)
 
-n_target = 60
+n_target = 50
 
 # create training points
 X_train, y_train, n_train = \
@@ -32,13 +32,16 @@ kernel = 1.0 ** 2 * RBF(length_scale=[1., 1., 1., 1., 1., 1.]) \
 pipe = Pipeline([('scaler', StandardScaler()),
                 ('gp', GaussianProcessRegressor(kernel=kernel,
                     n_restarts_optimizer=20))])
-pipe.fit(X_train, y_train-0.88)
+pipe.fit(X_train, y_train)
 y_predict = pipe.predict(X_test)
-mse = mean_squared_error(y_test-0.88, y_predict)
+mse = mean_squared_error(y_test, y_predict)
 # report rmse
 print(n_train, np.sqrt(mse))
 
-max_error = np.max(np.abs((y_predict - (y_test - 0.88))/y_test))
+default_mse = mean_squared_error(y_test, np.zeros(len(y_test)))
+print(np.sqrt(default_mse))
+
+max_error = np.max(np.abs((y_predict - y_test)/(y_test+0.88)))
 
 fig = plt.figure(figsize=(12.0, 5.0))
 turbine1 = fig.add_subplot(1, 3, 1)
@@ -52,10 +55,13 @@ turbine3.set_xlabel('x_3 (D m)')
 turbine3.set_ylabel('y_3 (D m)')
 
 x = turbine1.scatter(X_test[:, 0], X_test[:, 1],
-                 c=(y_predict - (y_test - 0.88))/y_test,cmap=Geyser_3.mpl_colormap, vmin=-0.1, vmax=0.1)
+                 c=(y_predict - y_test)/(y_test+0.88),cmap=Geyser_3.mpl_colormap, vmin=-0.1, vmax=0.1)
+turbine1.scatter(X_train[:, 0], X_train[:, 1], c='black')
 turbine2.scatter(X_test[:, 2], X_test[:, 3],
-                 c=(y_predict - (y_test - 0.88))/y_test,cmap=Geyser_3.mpl_colormap,  vmin=-0.1, vmax=0.1)
+                 c=(y_predict - y_test)/(y_test+0.88),cmap=Geyser_3.mpl_colormap,  vmin=-0.1, vmax=0.1)
+turbine2.scatter(X_train[:, 2], X_train[:, 3], c='black')
 turbine3.scatter(X_test[:, 4], X_test[:, 5],
-                 c=(y_predict - (y_test - 0.88))/y_test,cmap=Geyser_3.mpl_colormap,  vmin=-0.1, vmax=0.1)
+                 c=(y_predict - y_test)/(y_test+0.88),cmap=Geyser_3.mpl_colormap,  vmin=-0.1, vmax=0.1)
+turbine3.scatter(X_train[:, 4], X_train[:, 5], c='black')
 plt.colorbar(x)
-plt.savefig('analysis/GP_machine_learning_plots/GP_error_regular_training.png')
+plt.savefig('analysis/GP_machine_learning_plots/GP_error_regular_training_4Dmaximin_max_change_halved.png')
