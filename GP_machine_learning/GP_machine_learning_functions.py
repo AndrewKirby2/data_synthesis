@@ -84,27 +84,27 @@ def create_training_points_irregular(n_target, noise_level):
                     number of valid training points
     """
     X_train = dp.maximin_reconstruction(n_target, 6)
-    X_test[:, 0] = 30*X_test[:, 0]
-    X_test[:, 1] = 10*X_test[:, 1] - 5
-    X_test[:, 2] = 30*X_test[:, 2]
-    X_test[:, 3] = 10*X_test[:, 3] - 5
-    X_test[:, 4] = 30*X_test[:, 4]
-    X_test[:, 5] = 10*X_test[:, 5] - 5
+    X_train[:, 0] = 30*X_train[:, 0]
+    X_train[:, 1] = 10*X_train[:, 1] - 5
+    X_train[:, 2] = 30*X_train[:, 2]
+    X_train[:, 3] = 10*X_train[:, 3] - 5
+    X_train[:, 4] = 30*X_train[:, 4]
+    X_train[:, 5] = 10*X_train[:, 5] - 5
     # exclude training points where turbine 1 is closer than 2D
     X_train_dist = np.sqrt(X_train[:, 0]**2 + X_train[:, 1]**2)
     X_train_real = X_train[X_train_dist > 2]
     # exclude training points where turbine 2 is more important"
     # than turbine 1 using distance = sqrt(10*x_1^2 + y_1^2)
-    X_test_sig = calculate_distance(X_test_real[:, 2],
-                                    X_test_real[:, 3]) \
-        - calculate_distance(X_test_real[:, 0], X_test_real[:, 1])
-    X_test_real = X_test_real[X_test_sig > 0]
+    X_train_sig = calculate_distance(X_train_real[:, 2],
+                                    X_train_real[:, 3]) \
+        - calculate_distance(X_train_real[:, 0], X_train_real[:, 1])
+    X_train_real = X_train_real[X_train_sig > 0]
     # exclude training points where turbine 3 is more important
     # than turbine 2 using distance = sqrt(10*x_1^2 + y_1^2)
-    X_test_sig = calculate_distance(X_test_real[:, 4],
-                                    X_test_real[:, 5]) \
-        - calculate_distance(X_test_real[:, 2], X_test_real[:, 3])
-    X_test_real = X_test_real[X_test_sig > 0]
+    X_train_sig = calculate_distance(X_train_real[:, 4],
+                                    X_train_real[:, 5]) \
+        - calculate_distance(X_train_real[:, 2], X_train_real[:, 3])
+    X_train_real = X_train_real[X_train_sig > 0]
     # run simulations to find data points
     y_train = np.zeros(len(X_train_real))
     for i in range(len(X_train_real)):
