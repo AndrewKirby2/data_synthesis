@@ -7,7 +7,7 @@ import diversipy.subset as sb
 import numpy as np
 import sys
 sys.path.append(r'/home/andrewkirby72/phd_work/data_synthesis')
-from data_simulator.simulators import simulator6d
+from data_simulator.simulators import simulator6d_halved
 from regular_array_sampling.functions import regular_array_monte_carlo
 from regular_array_sampling.functions import find_important_turbines
 from regular_array_sampling.functions import calculate_distance
@@ -56,7 +56,7 @@ def create_testing_points(noise_level):
     X_test_real = X_test_real[X_test_sig > 0]
     y_test = np.zeros(len(X_test_real))
     for i in range(len(X_test_real)):
-        y_test[i] = simulator6d(X_test_real[i, :], noise_level)
+        y_test[i] = simulator6d_halved(X_test_real[i, :], noise_level)
     return X_test_real, y_test
 
 
@@ -108,7 +108,7 @@ def create_training_points_irregular(n_target, noise_level):
     # run simulations to find data points
     y_train = np.zeros(len(X_train_real))
     for i in range(len(X_train_real)):
-        y_train[i] = simulator6d(X_train_real[i, :], noise_level)
+        y_train[i] = simulator6d_halved(X_train_real[i, :], noise_level)
     n_train = len(X_train_real)
     return X_train_real, y_train, n_train
 
@@ -129,7 +129,7 @@ def create_training_points_regular(n_target, noise_level, cand_points):
     X_train_real = sb.select_greedy_maximin(cand_points, n_target)
     y_train = np.zeros(len(X_train_real))
     for i in range(len(X_train_real)):
-        y_train[i] = simulator6d(X_train_real[i, :], noise_level)
+        y_train[i] = simulator6d_halved(X_train_real[i, :], noise_level)
     n_train = n_target
     return X_train_real, y_train, n_train
 
@@ -157,7 +157,7 @@ def create_testing_points_regular(noise_level):
     X_test_real = regular_array_monte_carlo(1000)
     y_test = np.zeros(len(X_test_real))
     for i in range(len(X_test_real)):
-        y_test[i] = simulator6d(X_test_real[i, :], noise_level)
+        y_test[i] = simulator6d_halved(X_test_real[i, :], noise_level)
     return X_test_real, y_test
 
 def create_training_points_regular_maxi4d(n_target, noise_level):
@@ -189,6 +189,6 @@ def create_training_points_regular_maxi4d(n_target, noise_level):
                                                       regular_array[i, 3])
     y_train = np.zeros(len(X_train_real))
     for i in range(len(X_train_real)):
-        y_train[i] = simulator6d(X_train_real[i, :], noise_level)
+        y_train[i] = simulator6d_halved(X_train_real[i, :], noise_level)
     n_train = n_target
     return X_train_real, y_train, n_train
