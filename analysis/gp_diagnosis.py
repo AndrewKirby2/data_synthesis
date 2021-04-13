@@ -16,15 +16,15 @@ from regular_array_sampling.functions import regular_array_monte_carlo
 
 noise = 0.01
 # create array of sampled regular array layouts
-cand_points = regular_array_monte_carlo(10000)
+#cand_points = regular_array_monte_carlo(10000)
 # create testing points
-X_test, y_test = create_testing_points_regular(noise)
+X_test, y_test = create_testing_points(noise)
 
-n_target = 50
+n_target = 500
 
 # create training points
 X_train, y_train, n_train = \
-    create_training_points_regular(n_target, noise, cand_points)
+    create_training_points_irregular_lhs(n_target, noise)
 
 # fit GP regression and calculate rmse
 kernel = 1.0 ** 2 * Matern(length_scale=[1., 1., 1., 1., 1., 1.]) \
@@ -64,4 +64,4 @@ turbine3.scatter(X_test[:, 4], X_test[:, 5],
                  c=(y_predict - y_test),cmap=Geyser_3.mpl_colormap, vmin=-max_error, vmax=max_error)
 turbine3.scatter(X_train[:, 4], X_train[:, 5], c='black')
 plt.colorbar(x)
-plt.savefig('analysis/GP_machine_learning_plots/GP_error_regular_training_6Dmaximin_max_change_halved.png')
+plt.savefig('analysis/GP_machine_learning_plots/GP_error_irregular_training_max_change_halved.png')

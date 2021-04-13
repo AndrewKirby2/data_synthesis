@@ -2,6 +2,7 @@
 Process machine learning
 """
 from pyDOE import lhs
+from scipy.stats.distributions import norm, expon
 import diversipy.hycusampling as dp
 import diversipy.subset as sb
 import numpy as np
@@ -90,6 +91,61 @@ def create_training_points_irregular(n_target, noise_level):
     X_train[:, 3] = 10*X_train[:, 3] - 5
     X_train[:, 4] = 30*X_train[:, 4]
     X_train[:, 5] = 10*X_train[:, 5] - 5
+    # exclude training points where turbine 1 is closer than 2D
+    X_train_dist = np.sqrt(X_train[:, 0]**2 + X_train[:, 1]**2)
+    X_train_real = X_train[X_train_dist > 2]
+    # exclude training points where turbine 2 is more important"
+    # than turbine 1 using distance = sqrt(10*x_1^2 + y_1^2)
+    X_train_sig = calculate_distance(X_train_real[:, 2],
+                                    X_train_real[:, 3]) \
+        - calculate_distance(X_train_real[:, 0], X_train_real[:, 1])
+    X_train_real = X_train_real[X_train_sig > 0]
+    # exclude training points where turbine 3 is more important
+    # than turbine 2 using distance = sqrt(10*x_1^2 + y_1^2)
+    X_train_sig = calculate_distance(X_train_real[:, 4],
+                                    X_train_real[:, 5]) \
+        - calculate_distance(X_train_real[:, 2], X_train_real[:, 3])
+    X_train_real = X_train_real[X_train_sig > 0]
+    # run simulations to find data points
+    y_train = np.zeros(len(X_train_real))
+    for i in range(len(X_train_real)):
+        y_train[i] = simulator6d_halved(X_train_real[i, :], noise_level)
+    n_train = len(X_train_real)
+    return X_train_real, y_train, n_train
+
+def create_training_points_irregular_lhs(n_target, noise_level):
+    """ create array of training points
+    Discard any training points where turbines are
+    not in the correct order and any training points where
+    turbines are closer than 2D
+    Scale the training points using a gaussian for spanwise
+    direction and exponential function for streamwise
+    direction
+
+    Parameters
+    ----------
+    n_target: int
+        target number of training points
+    noise_level: float
+        Level of gaussian noise to be added to
+        simulator
+
+    Returns
+    -------
+    X_train_real:    ndarray of shape(variable,6)
+                    array containing valid training points
+    y_train:         ndarray of shape(variable,)
+                    value of CT* at test points
+    n_train:        int
+                    number of valid training points
+    """
+    X_train = lhs(6, n_target)
+    X_train[:, 0] = expon(scale = 7).ppf(X_train[:, 0])
+    X_train[:, 1] = norm(scale = 1.5).ppf(X_train[:, 1])
+    X_train[:, 2] = expon(scale = 7).ppf(X_train[:, 2])
+    X_train[:, 3] = norm(scale = 1.5).ppf(X_train[:, 3])
+    X_train[:, 4] = expon(scale = 7).ppf(X_train[:, 4])
+    X_train[:, 5] = norm(scale = 1.5).ppf(X_train[:, 5])
     # exclude training points where turbine 1 is closer than 2D
     X_train_dist = np.sqrt(X_train[:, 0]**2 + X_train[:, 1]**2)
     X_train_real = X_train[X_train_dist > 2]
