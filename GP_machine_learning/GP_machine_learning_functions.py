@@ -139,7 +139,7 @@ def create_training_points_irregular_lhs(n_target, noise_level):
     n_train:        int
                     number of valid training points
     """
-    X_train = lhs(6, n_target)
+    X_train = lhs(6, n_target, 'maximin')
     X_train[:, 0] = expon(scale = 7).ppf(X_train[:, 0])
     X_train[:, 1] = norm(scale = 1.5).ppf(X_train[:, 1])
     X_train[:, 2] = expon(scale = 7).ppf(X_train[:, 2])

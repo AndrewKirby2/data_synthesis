@@ -18,7 +18,7 @@ noise = 0.01
 # create array of sampled regular array layouts
 #cand_points = regular_array_monte_carlo(10000)
 # create testing points
-X_test, y_test = create_testing_points(noise)
+X_test, y_test = create_testing_points_regular(noise)
 
 n_target = 500
 
@@ -55,13 +55,13 @@ turbine3.set_xlabel('x_3 (D m)')
 turbine3.set_ylabel('y_3 (D m)')
 
 x = turbine1.scatter(X_test[:, 0], X_test[:, 1],
-                 c=(y_predict - y_test),cmap=Geyser_3.mpl_colormap, vmin=-max_error, vmax=max_error)
+                 c=(y_predict - y_test)/(y_test+0.88),cmap=Geyser_3.mpl_colormap, vmin=-0.1, vmax=0.1)
 turbine1.scatter(X_train[:, 0], X_train[:, 1], c='black')
 turbine2.scatter(X_test[:, 2], X_test[:, 3],
-                 c=(y_predict - y_test),cmap=Geyser_3.mpl_colormap, vmin=-max_error, vmax=max_error)
+                 c=(y_predict - y_test)/(y_test+0.88),cmap=Geyser_3.mpl_colormap, vmin=-0.1, vmax=0.1)
 turbine2.scatter(X_train[:, 2], X_train[:, 3], c='black')
 turbine3.scatter(X_test[:, 4], X_test[:, 5],
-                 c=(y_predict - y_test),cmap=Geyser_3.mpl_colormap, vmin=-max_error, vmax=max_error)
+                 c=(y_predict - y_test)/(y_test+0.88),cmap=Geyser_3.mpl_colormap, vmin=-0.1, vmax=0.1)
 turbine3.scatter(X_train[:, 4], X_train[:, 5], c='black')
 plt.colorbar(x)
-plt.savefig('analysis/GP_machine_learning_plots/GP_error_irregular_training_max_change_halved.png')
+plt.savefig('analysis/GP_machine_learning_plots/GP_error_irregular_lhs_training_max_change_halved.png')
