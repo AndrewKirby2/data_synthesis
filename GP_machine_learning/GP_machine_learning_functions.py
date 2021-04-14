@@ -2,7 +2,7 @@
 Process machine learning
 """
 from pyDOE import lhs
-from scipy.stats.distributions import norm, expon
+from scipy.stats.distributions import norm, expon, uniform
 import diversipy.hycusampling as dp
 import diversipy.subset as sb
 import numpy as np

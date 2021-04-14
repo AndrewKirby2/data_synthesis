@@ -19,7 +19,7 @@ noise = 0.01
 # create array of sampled regular array layouts
 #cand_points = regular_array_monte_carlo(10000)
 # create testing points
-X_test, y_test = create_testing_points(noise)
+X_test, y_test = create_testing_points_regular(noise)
 
 n = 0
 n_target = 0
@@ -29,7 +29,7 @@ while n_train < 200:
 
     # create training points
     X_train, y_train, n_train = \
-        create_training_points_irregular_lhs(n_target, noise)
+        create_training_points_irregular(n_target, noise)
 
     # fit GP regression and calculate rmse
     kernel = 1.0 ** 2 * RBF(length_scale=[1., 1., 1., 1., 1., 1.]) \
@@ -54,4 +54,4 @@ plt.title('Training curve RBF - 6D 1% noise - irregular array training - max cha
 plt.ylabel('RMSE')
 plt.xlabel('Training points')
 plt.savefig('analysis/GP_machine_learning_plots/\
-gp_training_curve_RBF_irregular_training_lhs_maxchangehalved.png')
+gp_training_curve_RBF_irregular_training_maxchangehalved_regular_testing.png')
