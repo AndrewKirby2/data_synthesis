@@ -404,3 +404,39 @@ def create_testing_points_regular_transformed(noise_level):
     X_test_tran[:, 3] = norm(0, 2.5).cdf(X_test_real[:, 3])
     X_test_tran[:, 5] = norm(0, 2.5).cdf(X_test_real[:, 5])
     return X_test, X_test_tran, y_test
+
+def create_training_points_regular_transformed(n_target, noise_level, cand_points):
+    """ create array of training points from
+    regular turbine arrays
+
+    Returns
+    -------
+    X_train:        ndarray of shape(variable,6)
+                    array containing valid training points
+    X_train_tran:   ndarray of shape(variable,6)
+                    array containing valid transformed training points
+    y_train:         ndarray of shape(variable,)
+                    value of CT* at test points
+    n_train:        int
+                    number of valid training points
+    """
+    cand_points_tran = np.zeros((len(cand_points), 6))
+    cand_points_tran[:, 0] = expon(scale=10).cdf(cand_points[:, 0])
+    cand_points_tran[:, 2] = expon(scale=10).cdf(cand_points[:, 2])
+    cand_points_tran[:, 4] = expon(scale=10).cdf(cand_points[:, 4])
+    cand_points_tran[:, 1] = norm(0, 2.5).cdf(cand_points[:, 1])
+    cand_points_tran[:, 3] = norm(0, 2.5).cdf(cand_points[:, 3])
+    cand_points_tran[:, 5] = norm(0, 2.5).cdf(cand_points[:, 5])
+    X_train_tran = sb.select_greedy_maximin(cand_points_tran, n_target)
+    X_train = np.zeros((len(X_train_tran), 6))
+    X_train[:, 0] = expon(scale=10).ppf(X_train_tran[:, 0])
+    X_train[:, 1] = norm(0, 2.5).ppf(X_train_tran[:, 1])
+    X_train[:, 2] = expon(scale=10).ppf(X_train_tran[:, 2])
+    X_train[:, 3] = norm(0, 2.5).ppf(X_train_tran[:, 3])
+    X_train[:, 4] = expon(scale=10).ppf(X_train_tran[:, 4])
+    X_train[:, 5] = norm(0, 2.5).ppf(X_train_tran[:, 5])
+    y_train = np.zeros(len(X_train))
+    for i in range(len(X_train)):
+        y_train[i] = simulator6d_halved(X_train[i, :], noise_level)
+    n_train = n_target
+    return X_train, X_train_tran, y_train, n_train

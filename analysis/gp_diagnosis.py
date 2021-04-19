@@ -16,15 +16,15 @@ from regular_array_sampling.functions import regular_array_monte_carlo
 
 noise = 0.01
 # create array of sampled regular array layouts
-#cand_points = regular_array_monte_carlo(10000)
+cand_points = regular_array_monte_carlo(5000)
 # create testing points
 X_test, X_test_tran, y_test = create_testing_points_regular_transformed(noise)
 
-n_target = 500
+n_target = 60
 
 # create training points
 X_train, X_train_tran, y_train, n_train = \
-    create_training_points_irregular_transformed(n_target, noise)
+    create_training_points_regular_transformed(n_target, noise, cand_points)
 
 # fit GP regression and calculate rmse
 kernel = 1.0 ** 2 * Matern(length_scale=[1., 1., 1., 1., 1., 1.], nu=2.5) \
@@ -73,7 +73,7 @@ turbine3.scatter(X_test[:, 4], X_test[:, 5],
                  c=(y_predict - y_test)/(y_test+0.88),cmap=Geyser_3.mpl_colormap, vmin=-0.1, vmax=0.1)
 turbine3.scatter(X_train[:, 4], X_train[:, 5], c='black')
 plt.colorbar(x)
-plt.savefig('analysis/GP_machine_learning_plots/GP_error_irregular_transformed_max_change_halved.png')
+plt.savefig('analysis/GP_machine_learning_plots/GP_error_regular_transformed_max_change_halved.png')
 
 fig = plt.figure(figsize=(12.0, 5.0))
 turbine1 = fig.add_subplot(1, 3, 1)
@@ -102,4 +102,4 @@ turbine3.scatter(X_test[:, 4], X_test[:, 5],
                  c=std)
 turbine3.scatter(X_train[:, 4], X_train[:, 5], c='black')
 plt.colorbar(x)
-plt.savefig('analysis/GP_machine_learning_plots/GP_uncertainty_irregular_transformed_max_change_halved.png')
+plt.savefig('analysis/GP_machine_learning_plots/GP_uncertainty_regular_transformed_max_change_halved.png')
