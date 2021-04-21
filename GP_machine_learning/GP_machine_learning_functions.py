@@ -250,7 +250,7 @@ def create_training_points_regular_maxi4d(n_target, noise_level):
     n_train = n_target
     return X_train_real, y_train, n_train
 
-def create_testing_points_transformed(noise_level):
+def create_testing_points_transformed():
     """ create array of testing points
     Discard any training points where turbines are
     not in the correct order and any training points where
@@ -298,7 +298,7 @@ def create_testing_points_transformed(noise_level):
     X_test_real = X_test_real[X_test_sig > 0]
     y_test = np.zeros(len(X_test_real))
     for i in range(len(X_test_real)):
-        y_test[i] = simulator6d_halved(X_test_real[i, :], noise_level)
+        y_test[i] = simulator6d_halved(X_test_real[i, :])
     X_test = X_test_real
     X_test_tran = np.zeros((len(X_test_real), 6))
     X_test_tran[:, 0] = expon(scale=10).cdf(X_test_real[:, 0])
@@ -369,7 +369,7 @@ def create_training_points_irregular_transformed(n_target, noise_level):
     X_train = X_train_real
     return X_train, X_train_tran, y_train, n_train
 
-def create_testing_points_regular_transformed(noise_level):
+def create_testing_points_regular_transformed():
     """ create array of testing points from regular
     wind turbine arrays
     Discard any training points where turbines are
@@ -394,7 +394,7 @@ def create_testing_points_regular_transformed(noise_level):
     X_test_real = regular_array_monte_carlo(1000)
     y_test = np.zeros(len(X_test_real))
     for i in range(len(X_test_real)):
-        y_test[i] = simulator6d_halved(X_test_real[i, :], noise_level)
+        y_test[i] = simulator6d_halved(X_test_real[i, :])
     X_test = X_test_real
     X_test_tran = np.zeros((1000, 6))
     X_test_tran[:, 0] = expon(scale=10).cdf(X_test_real[:, 0])

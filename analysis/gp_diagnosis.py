@@ -18,7 +18,7 @@ noise = 0.01
 # create array of sampled regular array layouts
 cand_points = regular_array_monte_carlo(5000)
 # create testing points
-X_test, X_test_tran, y_test = create_testing_points_regular_transformed(noise)
+X_test, X_test_tran, y_test = create_testing_points_transformed(noise)
 
 n_target = 60
 
@@ -50,18 +50,18 @@ fig = plt.figure(figsize=(12.0, 5.0))
 turbine1 = fig.add_subplot(1, 3, 1)
 turbine1.set_xlabel('x_1 (D m)')
 turbine1.set_ylabel('y_1 (D m)')
-turbine1.set_xlim([0, 30])
-turbine1.set_ylim([-5 ,5])
+#turbine1.set_xlim([0, 30])
+#turbine1.set_ylim([-5 ,5])
 turbine2 = fig.add_subplot(1, 3, 2)
 turbine2.set_xlabel('x_2 (D m)')
 turbine2.set_ylabel('y_2 (D m)')
-turbine2.set_xlim([0, 30])
-turbine2.set_ylim([-5 ,5])
+#turbine2.set_xlim([0, 30])
+#turbine2.set_ylim([-5 ,5])
 turbine3 = fig.add_subplot(1, 3, 3)
 turbine3.set_xlabel('x_3 (D m)')
 turbine3.set_ylabel('y_3 (D m)')
-turbine3.set_xlim([0, 30])
-turbine3.set_ylim([-5 ,5])
+#turbine3.set_xlim([0, 30])
+#turbine3.set_ylim([-5 ,5])
 
 x = turbine1.scatter(X_test[:, 0], X_test[:, 1],
                  c=(y_predict - y_test)/(y_test+0.88),cmap=Geyser_3.mpl_colormap, vmin=-0.1, vmax=0.1)

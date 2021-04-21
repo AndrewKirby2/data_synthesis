@@ -67,7 +67,7 @@ def simulator6d(x, noise_level):
         - 0.4*np.exp(-x[4]/10)*np.exp(-x[5]**2/(0.5+0.2*x[4])) \
         + np.random.normal(0, noise_level/1.96)
 
-def simulator6d_halved(x, noise_level):
+def simulator6d_halved(x):
     """ calculates CT* based on x1, y1, x2, y2,
     x3, y3
         Gaussian noise is added
@@ -90,4 +90,4 @@ def simulator6d_halved(x, noise_level):
         - 0.2*np.exp(-x[2]/10)*np.exp(-x[3]**2/(0.5+0.2*x[2])) \
         + 0.025*np.exp(-x[4]/10)*np.exp(-x[5]**2/(10+0.2*x[4])) \
         - 0.2*np.exp(-x[4]/10)*np.exp(-x[5]**2/(0.5+0.2*x[4])) \
-        + np.random.normal(0, noise_level/1.96)
+        + np.random.normal(0, 0.01/1.96)
