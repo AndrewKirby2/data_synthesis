@@ -274,7 +274,7 @@ def create_testing_points_transformed():
     y_test:         ndarray of shape(variable,)
                     value of CT* at test points
     """
-    X_test = lhs(6, 1000, 'maximin')
+    X_test = lhs(6, 10000)
     X_test[:, 0] = 30*X_test[:, 0]
     X_test[:, 1] = 10*X_test[:, 1] - 5
     X_test[:, 2] = 30*X_test[:, 2]
