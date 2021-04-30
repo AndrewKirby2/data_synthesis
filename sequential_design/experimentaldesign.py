@@ -12,8 +12,8 @@ from regular_array_sampling.functions import calculate_distance
 def validlhs():
     from pyDOE import lhs as lhsd
     n_samples = 0
-    while n_samples < 300:
-        lhs = lhsd(6, 3100)
+    while n_samples != 300:
+        lhs = lhsd(6, 2800)
         #expand x, y coordinates to their real values
         lhs[:, 0] = expon(scale=10).ppf(lhs[:, 0])
         lhs[:, 1] = norm(0, 2.5).ppf(lhs[:, 1])
