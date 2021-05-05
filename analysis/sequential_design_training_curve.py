@@ -4,6 +4,7 @@ from scipy.stats import norm, expon
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from palettable.cartocolors.diverging import Geyser_3
 import mogp_emulator
+import pickle
 import sys
 sys.path.append(r'/home/andrewkirby72/phd_work/data_synthesis')
 from sequential_design.experimentaldesign import validLCDesign
@@ -65,10 +66,12 @@ plt.figure(1)
 plt.scatter(np.arange(2,102,1), mae)
 plt.ylabel('MAE')
 plt.xlabel('Number of training points')
-plt.savefig('analysis/sequential_design_plots/seq_design_mae_LHS_fix.png')
+plt.savefig('analysis/sequential_design_plots/seq_design_mae_regular_LHS.png')
 
 plt.figure(2)
 plt.scatter(np.arange(2,102,1), rmse)
 plt.ylabel('RMSE')
 plt.xlabel('Number of training points')
-plt.savefig('analysis/sequential_design_plots/seq_design_rmse_LHS_fix.png')
+plt.savefig('analysis/sequential_design_plots/seq_design_rmse_regular_LHS.png')
+
+np.savetxt('inputs.txt', inputs)

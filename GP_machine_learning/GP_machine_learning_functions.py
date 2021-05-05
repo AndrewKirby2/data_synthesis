@@ -391,18 +391,19 @@ def create_testing_points_regular_transformed():
     y_test:         ndarray of shape(variable,)
                     value of CT* at test points
     """
-    X_test_real = regular_array_monte_carlo(1000)
+    X_test_real = regular_array_monte_carlo(20000)
     y_test = np.zeros(len(X_test_real))
     for i in range(len(X_test_real)):
         y_test[i] = simulator6d_halved(X_test_real[i, :])
     X_test = X_test_real
-    X_test_tran = np.zeros((1000, 6))
+    X_test_tran = np.zeros((20000, 6))
     X_test_tran[:, 0] = expon(scale=10).cdf(X_test_real[:, 0])
     X_test_tran[:, 2] = expon(scale=10).cdf(X_test_real[:, 2])
     X_test_tran[:, 4] = expon(scale=10).cdf(X_test_real[:, 4])
     X_test_tran[:, 1] = norm(0, 2.5).cdf(X_test_real[:, 1])
     X_test_tran[:, 3] = norm(0, 2.5).cdf(X_test_real[:, 3])
     X_test_tran[:, 5] = norm(0, 2.5).cdf(X_test_real[:, 5])
+    np.savetxt('regular_arrays_transformed.txt', X_test_tran)
     return X_test, X_test_tran, y_test
 
 def create_training_points_regular_transformed(n_target, noise_level, cand_points):
