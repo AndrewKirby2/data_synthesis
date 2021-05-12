@@ -87,5 +87,5 @@ turbine3.scatter(X_test[:, 4], X_test[:, 5],
                  c=(y_predict - y_test)/(y_test+0.88),cmap=Geyser_3.mpl_colormap, vmin=-0.1, vmax=0.1)
 turbine3.scatter(X_train[:, 4], X_train[:, 5], c='black')
 plt.colorbar(x)
-plt.savefig('analysis/sequential_design_plots/seq_design_transformed_max_change_halved_LHS_fix.png')
+plt.savefig('analysis/sequential_design_plots/seq_design_transformed_max_change_halved_regularLHS.png')
 
