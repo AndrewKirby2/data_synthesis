@@ -110,7 +110,7 @@ def validlhs_regular():
     lhs[:, 4] = expon(scale=10).cdf(lhs[:, 4])
     lhs[:, 5] = norm(0, 2.5).cdf(lhs[:, 5])
     # replace lhs points with nearest regular arrays
-    X_reg_tran = np.loadtxt('regular_arrays_transformed.txt')
+    X_reg_tran = np.loadtxt('regular_arrays_no_rot_transformed.txt')
     min_dist = np.zeros(len(X_reg_tran))
     for i in range(len(lhs)):
         diff = np.linalg.norm(X_reg_tran - lhs[i, :], axis = 1)

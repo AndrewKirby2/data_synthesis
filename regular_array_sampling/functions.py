@@ -121,8 +121,8 @@ def find_important_turbines(S_x, S_y, S_off, theta):
 
 def regular_array_monte_carlo(n_samples):
     """ Monte carlo sample regular arrays in the range
+    Arrays are non-rotated
     S_x = [2,40], S_y = [2,40], S_off = [0, S_y]
-    theta = [0, pi]
     Only returns arrangements where the 3 turbines are in
     the domain y = [-5, 5] and x = [0,30]
 
@@ -141,7 +141,7 @@ def regular_array_monte_carlo(n_samples):
         S_x = np.random.uniform(2, 40)
         S_y = np.random.uniform(2, 40)
         S_off = np.random.uniform(0, S_y)
-        theta = np.random.uniform(0, np.pi)
+        theta = 0
         turbine_coords = find_important_turbines(S_x, S_y, S_off, theta)
         # check if all turbines are in x = [0, 30], y3 = [-5, 5]
         if np.all(np.abs(turbine_coords[[1, 3, 5]]) < 5) \

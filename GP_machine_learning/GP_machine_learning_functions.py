@@ -403,7 +403,7 @@ def create_testing_points_regular_transformed():
     X_test_tran[:, 1] = norm(0, 2.5).cdf(X_test_real[:, 1])
     X_test_tran[:, 3] = norm(0, 2.5).cdf(X_test_real[:, 3])
     X_test_tran[:, 5] = norm(0, 2.5).cdf(X_test_real[:, 5])
-    np.savetxt('regular_arrays_transformed.txt', X_test_tran)
+    np.savetxt('regular_arrays_no_rot_transformed.txt', X_test_tran)
     return X_test, X_test_tran, y_test
 
 def create_training_points_regular_transformed(n_target, noise_level, cand_points):
